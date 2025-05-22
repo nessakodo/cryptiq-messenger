@@ -1,0 +1,11 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: linear-gradient(135deg, #141e30 0%, #243b55 100%);
+  min-height: 100vh;
+}
