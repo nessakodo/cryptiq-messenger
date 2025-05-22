@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
-from backend.routes.message_routes import message_routes
-from backend.routes.auth_routes import auth_routes
+from routes.message_routes import message_routes
+from routes.auth_routes import auth_routes
 
 app = Flask(__name__)
 CORS(app)
