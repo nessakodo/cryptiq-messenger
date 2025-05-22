@@ -5,7 +5,7 @@ let socket;
 
 export default function ChatBox() {
   const [messages, setMessages] = useState([
-    { message: "Welcome to Quantum Chat! All messages are sent with quantum-safe encryption (Kyber/Dilithium). Open this chat in two tabs to test real-time messaging.", system: true }
+    { message: "Welcome to Cryptiq! All messages are sent with quantum-safe encryption (Kyber/Dilithium). Open this chat in two tabs to test real-time messaging.", system: true }
   ]);
   const [input, setInput] = useState("");
   const [username, setUsername] = useState("");

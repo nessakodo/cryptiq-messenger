@@ -1,4 +1,4 @@
-# 𝘘𝘙𝘠𝘗𝘛𝘐𝘘 𝘘𝘶𝘢𝘯𝘵𝘶𝘮-𝘚𝘢𝘧𝘦 𝘊𝘩𝘢𝘵
+# 𝘊𝘙𝘠𝘗𝘛𝘐𝘘 𝘘𝘶𝘢𝘯𝘵𝘶𝘮-𝘚𝘢𝘧𝘦 𝘊𝘩𝘢𝘵
 
 ![Version](https://img.shields.io/badge/Version-v0.1.0-000000?style=for-the-badge\&logo=github\&logoColor=white)
 [![Python](https://img.shields.io/badge/Python-000000?style=for-the-badge\&logo=python\&logoColor=white)](https://www.python.org)
@@ -10,7 +10,7 @@
 
 ## 𝘜𝘱𝘥𝘢𝘵𝘦𝘴
 
-QRYPTIQ v0.1 is a modern, real-time encrypted chat demo:
+CRYPTIQ v0.1 is a modern, real-time encrypted chat demo:
 
 * Built with **Next.js (frontend)** + **Flask-SocketIO (backend)**
 * **Glassmorphic, cyber-zen UI** with Orbitron + Inter fonts
