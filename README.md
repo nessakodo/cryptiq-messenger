@@ -8,9 +8,10 @@
 
 ---
 
+
 ## 𝘜𝘱𝘥𝘢𝘵𝘦𝘴
 
-CRYPTIQ v0.1 is a modern, real-time encrypted chat demo:
+CRYPTIQ v1.0 is a modern, real-time encrypted chat demo:
 
 * Built with **Next.js (frontend)** + **Flask-SocketIO (backend)**
 * **Glassmorphic, cyber-zen UI** with Orbitron + Inter fonts
