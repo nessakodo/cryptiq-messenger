@@ -14,6 +14,7 @@ export default function ChatBox() {
   const [auth, setAuth] = useState(null);
   const [messages, setMessages] = useState([introMessage]);
   const [input, setInput] = useState("");
+  const [recipient, setRecipient] = useState("");
   const [status, setStatus] = useState("");
   const [sending, setSending] = useState(false);
   const [loadingHistory, setLoadingHistory] = useState(false);
@@ -57,6 +58,25 @@ export default function ChatBox() {
     }
   }, [auth]);
 
+  const fetchMessages = useCallback(async () => {
+    if (!auth) return;
+    setLoadingHistory(true);
+    try {
+      const response = await fetch(`${backendBaseUrl}/api/messages`, {
+        headers: { Authorization: `Bearer ${auth.token}` },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch messages");
+      }
+      const data = await response.json();
+      data.messages.forEach(message => appendMessage(message));
+    } catch (err) {
+      setStatus(err.message);
+    } finally {
+      setLoadingHistory(false);
+    }
+  }, [auth, appendMessage]);
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -64,64 +84,41 @@ export default function ChatBox() {
   useEffect(() => {
     if (!auth) return;
     let cancelled = false;
-    async function fetchHistory() {
-      setLoadingHistory(true);
-      try {
-        const response = await fetch(`${backendBaseUrl}/api/messages`, {
-          headers: { Authorization: `Bearer ${auth.token}` },
-        });
-        const payload = await response.json();
-        if (!response.ok) {
-          throw new Error(payload.error || "Unable to load history");
-        }
-        if (cancelled) return;
-        const history = (payload.messages || []).map(item => ({ ...item, system: false }));
-        messageIds.current = new Set(history.map(item => item.id));
-        setMessages([introMessage, ...history]);
-      } catch (err) {
-        if (!cancelled) setStatus(err.message);
-      } finally {
-        if (!cancelled) setLoadingHistory(false);
-      }
-    }
-    fetchHistory();
+    fetchMessages();
     return () => {
       cancelled = true;
     };
-  }, [auth]);
+  }, [auth, fetchMessages]);
 
   useEffect(() => {
     if (!auth) return;
     const socket = io(backendBaseUrl);
     socket.emit("join", { token: auth.token });
     socket.on("status", payload => setStatus(payload.message));
-    socket.on("receive_message", payload => appendMessage({ ...payload, system: false }));
+    socket.on("new_message", () => fetchMessages());
     socket.on("error", err => setStatus(err.error || "Socket error"));
     return () => {
       socket.disconnect();
     };
-  }, [auth, appendMessage]);
+  }, [auth, fetchMessages]);
 
   async function sendMessage() {
     if (!input.trim() || !auth) return;
     setSending(true);
     try {
-      const response = await fetch(`${backendBaseUrl}/api/messages`, {
+      const response = await fetch(`${backendBaseUrl}/api/messages/send`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth.token}`,
         },
-        body: JSON.stringify({ message: input }),
+        body: JSON.stringify({ recipient_username: recipient, plaintext: input }),
       });
-      const payload = await response.json();
       if (!response.ok) {
         throw new Error(payload.error || "Failed to dispatch message");
       }
-      if (payload?.message) {
-        appendMessage({ ...payload.message, system: false });
-      }
       setInput("");
+      fetchMessages();
     } catch (err) {
       setStatus(err.message);
     } finally {
@@ -224,6 +221,12 @@ export default function ChatBox() {
         <div ref={bottomRef} />
       </div>
       <div className="flex gap-2">
+        <input
+          className="flex-1 px-4 py-2 rounded-lg bg-white/20 text-whiteGlow border border-white/10 focus:outline-none focus:border-neon transition"
+          value={recipient}
+          onChange={e => setRecipient(e.target.value)}
+          placeholder="Recipient username..."
+        />
         <input
           className="flex-1 px-4 py-2 rounded-lg bg-white/20 text-whiteGlow border border-white/10 focus:outline-none focus:border-neon transition"
           value={input}
