@@ -1,6 +1,7 @@
+eventlet
 flask
 flask-cors
 flask-socketio
-pycryptodome
-eventlet
 gunicorn
+pycryptodome
+pytest
