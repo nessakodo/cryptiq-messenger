@@ -11,7 +11,7 @@ from flask_cors import CORS
 from .storage import init_db
 from .routes.auth_routes import auth_routes
 from .routes.message_routes import message_routes
-from .session_cache import SessionCache
+from .session import SessionCache
 from .socket_registry import SocketRegistry
 from .websocket.socket_server import socketio
 

@@ -5,3 +5,4 @@ flask-socketio
 gunicorn
 pycryptodome
 pytest
+oqs

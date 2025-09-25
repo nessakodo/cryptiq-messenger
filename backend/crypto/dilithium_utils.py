@@ -1,4 +1,4 @@
-"""Dilithium-3 signature helpers with optional Open Quantum Safe support."""
+"""Dilithium-5 signature helpers with optional Open Quantum Safe support."""
 
 from __future__ import annotations
 
@@ -20,14 +20,14 @@ except Exception:  # pragma: no cover - deterministic shim
     HAVE_OQS = False
     warnings.warn(
         "liboqs bindings not available. Falling back to deterministic Dilithium shim "
-        "(not quantum-safe). Install the 'oqs' package for real Dilithium-3 support.",
+        "(not quantum-safe). Install the 'oqs' package for real Dilithium-5 support.",
         RuntimeWarning,
     )
 
 
 @contextmanager
 def _sig() -> Iterator["oqs.Signature"]:
-    signer = oqs.Signature("Dilithium3")
+    signer = oqs.Signature("Dilithium5")
     try:
         yield signer
     finally:

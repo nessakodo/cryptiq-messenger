@@ -1,4 +1,4 @@
-"""Kyber-768 helper utilities with optional Open Quantum Safe support."""
+"""Kyber-1024 helper utilities with optional Open Quantum Safe support."""
 
 from __future__ import annotations
 
@@ -19,14 +19,14 @@ except Exception:  # pragma: no cover - fall back to deterministic shim
     HAVE_OQS = False
     warnings.warn(
         "liboqs bindings not available. Falling back to deterministic Kyber shim "
-        "(not quantum-safe). Install the 'oqs' package for real Kyber-768 support.",
+        "(not quantum-safe). Install the 'oqs' package for real Kyber-1024 support.",
         RuntimeWarning,
     )
 
 
 @contextmanager
 def _kem() -> Iterator["oqs.KeyEncapsulation"]:
-    kem = oqs.KeyEncapsulation("Kyber768")
+    kem = oqs.KeyEncapsulation("Kyber1024")
     try:
         yield kem
     finally:
@@ -74,7 +74,7 @@ def _shim_decapsulate(secret_key_b64: str, ciphertext_b64: str) -> str:
 
 
 def generate_keypair() -> Tuple[str, str]:
-    """Generate a Kyber-768 keypair encoded as base64 strings."""
+    """Generate a Kyber-1024 keypair encoded as base64 strings."""
 
     return _oqs_generate() if HAVE_OQS else _shim_generate()
 
